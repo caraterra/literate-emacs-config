@@ -1,0 +1,261 @@
+#+TITLE: A Literate GNU Emacs Configuration
+#+PROPERTY: header-args :tangle yes 
+
+* Setting Up The Repositories
+
+This section populates the ~'package-archives~ list with the desired Emacs package repositories. The elements of this list are /name/-/URL/ pairs.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+  (package-initialize)
+  (setq package-install-upgrade-built-in t)
+  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+  (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+  (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
+#+END_SRC
+
+* Configuring ~use-package~ 
+
+~use-package~ provides macros for loading and configuring Emacs packages. We'll load it here, installing it from the repositories if it's not already installed.
+
+#+BEGIN_SRC emacs-lisp
+  (unless (package-installed-p 'use-package)
+	  (package-refresh-contents)
+	  (package-install 'use-package))
+
+  (eval-when-compile
+    (require 'use-package))
+#+END_SRC
+
+* Configuring Emacs 
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    :config
+    ;; Disable the tool bar (graphical only)
+    (tool-bar-mode 0)
+    ;; Enable menu bar in graphical mode
+    (menu-bar-mode (if (display-graphic-p) 1 0))
+    ;; Use light them in graphical mode and dark theme otherwise
+    (load-theme (if (display-graphic-p) 'modus-operandi 'modus-vivendi))
+    ;; Enable column numbering
+    (column-number-mode)
+    :hook
+    ;; Enable line numbering in `prog-mode'
+    (prog-mode . display-line-numbers-mode)
+    :custom
+    ;; Set relative line numbering
+    (display-line-numbers-type 'relative)
+    ;; Don't display the startup message
+    (inhibit-startup-message t)
+    ;; Make prompt in `comint-mode' readonly
+    (comint-prompt-read-only t)
+    ;; Disable the bell
+    (ring-bell-function #'ignore))
+#+END_SRC
+
+* Populating the Executable Path
+
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :functions exec-path-from-shell-initialize
+    :config
+    (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize))
+    (when (daemonp) (exec-path-from-shell-initialize)))
+#+END_SRC
+
+* Using VIM Bindings
+
+#+BEGIN_SRC emacs-lisp
+  (setq scroll-step 1
+	scroll-conservatively 10000
+	next-screen-context-lines 5
+	line-move-visual nil)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package evil
+    :functions evil-mode
+    :config
+    (setq-default evil-undo-system 'undo-redo)
+    (evil-mode 1))
+#+END_SRC
+
+** VIM Surround
+
+The [[https://github.com/emacs-evil/evil-surround][~evil-surround~]] provides the same functionality as tpope's VIM plugin, [[https://github.com/tpope/vim-surround][~vim-surround~]].
+
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-surround
+    :requires evil
+    :functions global-evil-surround-mode
+    :config
+    (global-evil-surround-mode 1))
+#+END_SRC
+
+* Syntax Checking with FlyCheck 
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :init (global-flycheck-mode))
+#+END_SRC
+
+* Document Conversion with Pandoc
+
+#+BEGIN_SRC emacs-lisp
+  (use-package pandoc-mode
+    :hook
+    (markdown-mode . pandoc-mode)
+    (tex-mode . pandoc-mode))
+#+END_SRC
+
+* Magit
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit)
+#+END_SRC
+
+* Using the System Clipboard
+
+#+BEGIN_SRC emacs-lisp
+  (use-package xclip
+    :functions xclip-mode
+    :config
+    (xclip-mode 1))
+#+END_SRC
+
+* EditorConfig Support
+
+#+BEGIN_SRC emacs-lisp
+  (use-package editorconfig
+    :functions editorconfig-mode
+    :config
+    (editorconfig-mode 1))
+#+END_SRC
+
+* Customizing the Minibuffer
+
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :defines which-key-idle-delay
+    :functions which-key-mode
+    :config
+    (setq which-key-idle-delay 0.5)
+    (which-key-mode 1))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package vertico
+    :functions vertico-mode
+    :config
+    (vertico-mode))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  ;; Enable rich annotations using the Marginalia package
+  (use-package marginalia
+    ;; Bind `marginalia-cycle' locally in the minibuffer. To make the binding
+    ;; available in the *Completions* buffer, add it to the
+    ;; `completion-list-mode-map'.
+    :bind (:map minibuffer-local-map
+	   ("M-A" . marginalia-cycle))
+    ;; The :init section is always executed.
+    :init
+    ;; Marginalia must be activated in the :init section of use-package
+    ;; such that the mode gets enabled right away. Note that this forces
+    ;; loading the package.
+    (marginalia-mode))
+#+END_SRC
+
+* Language Support
+
+** Haskell
+
+#+BEGIN_SRC emacs-lisp
+  (use-package haskell-mode
+    :config (setq-default haskell-interactive-popup-errors nil)
+    :mode ("\\.hs\\'" . haskell-mode))
+#+END_SRC
+
+** Markdown
+
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :defines
+    markdown-asymmetric-header
+    markdown-enable-math
+    markdown-enable-wikilinks
+    :config
+    (setq markdown-asymmetric-header t)
+    (setq markdown-enable-math t)
+    (setq markdown-enable-wikilinks t))
+#+END_SRC
+
+** Org
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+    :hook
+    ;; Auto-break lines at `fill-column`
+    (org-mode . visual-line-mode) 
+    :custom
+    ;; Place the time and date under completed TODO items
+    (org-log-done 'time))
+#+END_SRC
+
+*** Adding additional language support to Org Babel
+
+Org Babel only enables support for Emacs Lisp by default. We can enable other languages by adding them to the list in the following command.
+
+#+BEGIN_SRC emacs-lisp
+  (org-babel-do-load-languages 'org-babel-load-languages
+			       '((C . t)
+				 (emacs-lisp . t)
+				 (scheme . t)))
+#+END_SRC
+
+*** Customizing LaTeX source code output
+
+Org Babel tends to use the LaTeX package, [[https://ctan.org/pkg/listings?lang=en][/listings/]], to generate source code blocks. I think the [[https://ctan.org/pkg/minted?lang=en][/minted/]] package produces much prettier output, so we can force Org Babel to use it instead of /listings/.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'ox-latex)
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq-default org-latex-listings 'minted)
+#+END_SRC
+
+In order for /minted/ to work, [[https://pygments.org/][/pygments/]] must be installed. Adding the ~-shell-escape~ flag to our invokation of ~pdflatex~ allows the process to access the ~pygmentize~ binary on the system.
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default org-latex-pdf-process
+	'("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+	  "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+#+END_SRC
+
+Here, we can tell /minted/ to break long lines instead of having them run off the page.
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default org-latex-minted-options '(("breaklines" "true")
+					   ("breakanywhere" "true")))
+#+END_SRC
+
+** Python
+
+#+BEGIN_SRC emacs-lisp
+  (use-package python)
+#+END_SRC
+
+** Rust
+
+#+BEGIN_SRC emacs-lisp
+  (use-package rust-mode)
+#+END_SRC
+
+** Scheme
+
+#+BEGIN_SRC emacs-lisp
+  (use-package geiser)
+  (use-package geiser-racket)
+  (use-package geiser-guile)
+#+END_SRC
