@@ -1,5 +1,5 @@
 #+TITLE: A Literate GNU Emacs Configuration
-#+PROPERTY: header-args :tangle yes 
+#+PROPERTY: header-args :tangle yes
 
 * Setting Up The Repositories
 
@@ -15,7 +15,7 @@ This section populates the ~'package-archives~ list with the desired Emacs packa
   (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 #+END_SRC
 
-* Configuring ~use-package~ 
+* Configuring ~use-package~
 
 ~use-package~ provides macros for loading and configuring Emacs packages. We'll load it here, installing it from the repositories if it's not already installed.
 
@@ -28,7 +28,7 @@ This section populates the ~'package-archives~ list with the desired Emacs packa
     (require 'use-package))
 #+END_SRC
 
-* Configuring Emacs 
+* Configuring Emacs
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
@@ -94,7 +94,7 @@ The [[https://github.com/emacs-evil/evil-surround][~evil-surround~]] provides th
     (global-evil-surround-mode 1))
 #+END_SRC
 
-* Syntax Checking with FlyCheck 
+* Syntax Checking with FlyCheck
 
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
@@ -198,7 +198,7 @@ The [[https://github.com/emacs-evil/evil-surround][~evil-surround~]] provides th
   (use-package org
     :hook
     ;; Auto-break lines at `fill-column`
-    (org-mode . visual-line-mode) 
+    (org-mode . visual-line-mode)
     :custom
     ;; Place the time and date under completed TODO items
     (org-log-done 'time))
