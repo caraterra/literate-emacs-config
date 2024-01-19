@@ -3,7 +3,7 @@
 
 * Setting Up The Repositories
 
-This section populates the ~'package-archives~ list with the desired Emacs package repositories. The elements of this list are /name/-/URL/ pairs.
+This section populates the ~package-archives~ list with the desired Emacs package repositories. The elements of this list are /name-URL/ pairs.
 
 #+BEGIN_SRC emacs-lisp
   (require 'package)
