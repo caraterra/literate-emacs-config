@@ -17,7 +17,7 @@ This section populates the ~'package-archives~ list with the desired Emacs packa
 
 * Configuring ~use-package~
 
-~use-package~ provides macros for loading and configuring Emacs packages. We'll load it here, installing it from the repositories if it's not already installed.
+[[https://github.com/jwiegley/use-package][use-package]] provides macros for loading and configuring Emacs packages. We'll load it here, installing it from the repositories if it's not already installed.
 
 #+BEGIN_SRC emacs-lisp
   (unless (package-installed-p 'use-package)
@@ -29,6 +29,8 @@ This section populates the ~'package-archives~ list with the desired Emacs packa
 #+END_SRC
 
 * Configuring Emacs
+
+Here, I put my base Emacs configurations into a single ~use-package~ block to keep everything in one place, and to shorten some common expressions using the ~:hook~ and ~:custom~ options.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
@@ -57,6 +59,10 @@ This section populates the ~'package-archives~ list with the desired Emacs packa
 
 * Populating the Executable Path
 
+When Emacs is run as a graphical application in MacOS, or as a daemon, it inherits a minimal set of environment variables from the system. If the user sets environment variables in their shell configuration, these won't be picked up by Emacs, causing some processes to behave unexpectedly.
+
+This package remedies this issue by forcing Emacs to inherit environment variables from the user's shell at runtime.
+
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
     :functions exec-path-from-shell-initialize
@@ -84,7 +90,7 @@ This section populates the ~'package-archives~ list with the desired Emacs packa
 
 ** VIM Surround
 
-The [[https://github.com/emacs-evil/evil-surround][~evil-surround~]] provides the same functionality as tpope's VIM plugin, [[https://github.com/tpope/vim-surround][~vim-surround~]].
+The [[https://github.com/emacs-evil/evil-surround][evil-surround]] package provides the same functionality as tpope's VIM plugin, [[https://github.com/tpope/vim-surround][vim-surround]].
 
 #+BEGIN_SRC emacs-lisp
   (use-package evil-surround
@@ -94,6 +100,38 @@ The [[https://github.com/emacs-evil/evil-surround][~evil-surround~]] provides th
     (global-evil-surround-mode 1))
 #+END_SRC
 
+#+ATTR_LATEX: :environment tabularx :width \textwidth :align XX
+| Mapping                       | Description                                                                                               |
+|-------------------------------+-----------------------------------------------------------------------------------------------------------|
+| ~ds<target>~                  | Deletes the target.                                                                                       |
+| ~cs<target><replacement>~     | Replaces the target with the given replacement.                                                           |
+| ~ys<textobject><replacement>~ | Surrounds the text object with the given replacement.                                                     |
+| ~yss<replacement>~            | Surrounds the whole line with the given replacement, ignoring leading whitespace.                         |
+| ~yS<textobject><replacement>~ | Surrounds the text object with the given replacement, indenting the content and placing it on a new line. |
+| ~ySS<replacement>~            | Surrounds the whole line with the given replacement, indenting the content and placing it on a new line.  |
+| ~S<replacement>~              | In visual mode, surround the selection with the given replacement.                                        |
+| ~gS<replacement>~             | In visual mode, surround the selection with the given replacement, suppressing automatic indentation.     |
+
+| Mapping          | Target                                  |
+|------------------+-----------------------------------------|
+| ~(~, ~)~, or ~b~ | Parentheses, i.e. ~(~ and ~)~           |
+| ~{~, ~}~, or ~B~ | Braces, i.e. ~{~ and ~}~                |
+| ~[~, ~]~, or ~r~ | Brackets, i.e. ~[~ and ~]~              |
+| ~>~ or ~a~       | Angle brackets, i.e. ~<~ and ~>~        |
+| ~<~  or ~t~      | HTML or XML tags, e.g. ~<p>~ and ~</p>~ |
+
+| Mapping              | Replacement                                              |
+|----------------------+----------------------------------------------------------|
+| ~)~ or ~b~           | Parentheses, e.g. ~(foo)~                                |
+| ~(~                  | Parentheses with inner space, e.g. ~( foo )~             |
+| ~}~ or ~B~           | Braces, e.g. ~{foo}~                                     |
+| ~{~                  | Braces with inner space, e.g. ~{ foo }~                  |
+| ~]~ or ~r~           | Brackets, e.g. ~[foo]~                                   |
+| ~[~                  | Brackets with inner space, e.g. ~[ foo ]~                |
+| ~>~ or ~a~           | Angle brackets, e.g. ~<foo>~                             |
+| ~<~ or ~t~           | An HTML or XML tag. Prompts for tag attributes.          |
+| ~f~                  | A function. Prompts for function name, e.g. ~print(foo)~ |
+
 * Syntax Checking with FlyCheck
 
 #+BEGIN_SRC emacs-lisp
@@ -102,6 +140,8 @@ The [[https://github.com/emacs-evil/evil-surround][~evil-surround~]] provides th
 #+END_SRC
 
 * Document Conversion with Pandoc
+
+Pandoc allows us to convert our working file into one of many document formats. The [[https://joostkremers.github.io/pandoc-mode/][pandoc-mode]] plugin integrates this tool in the editor with an interactive menu. Here, I have the mode enabled when working in Markdown or TeX mode.
 
 #+BEGIN_SRC emacs-lisp
   (use-package pandoc-mode
@@ -118,6 +158,8 @@ The [[https://github.com/emacs-evil/evil-surround][~evil-surround~]] provides th
 
 * Using the System Clipboard
 
+When running Emacs in the terminal, yanked text is copied to an internal buffer. The ~xclip~ package allows Emacs to copy and paste from the system clipboard using external command line tools.
+
 #+BEGIN_SRC emacs-lisp
   (use-package xclip
     :functions xclip-mode
@@ -127,12 +169,27 @@ The [[https://github.com/emacs-evil/evil-surround][~evil-surround~]] provides th
 
 * EditorConfig Support
 
+The EditorConfig package looks for ~.editorconfig~ files in the project directory and configures editor settings based on the directives within the file. See the [[https://editorconfig.org/][EditorConfig documentation]] for more information.
+
 #+BEGIN_SRC emacs-lisp
   (use-package editorconfig
     :functions editorconfig-mode
     :config
     (editorconfig-mode 1))
 #+END_SRC
+
+#+ATTR_LATEX: :environment tabularx :width \textwidth :align XX
+| EditorConfig Properties    | Description                                                                                 |
+|----------------------------+---------------------------------------------------------------------------------------------|
+| ~indent_style~             | Indent with tabs or spaces.                                                                 |
+| ~indent_size~              | The number of columns used for each indentation level, as well as the width of soft tabs.   |
+| ~tab_width~                | The number of columns used to represent a tab character.                                    |
+| ~end_of_line~              | Determines how line breaks are represented.                                                 |
+| ~charset~                  | Determines the character set.                                                               |
+| ~trim_trailing_whitespace~ | Whether or not to remove any whitespace characters preceding newline characters.            |
+| ~insert_final_newline~     | Whether or not to ensure file ends with a newline when saving.                              |
+| ~max_line_length~          | Force hard wrapping at the given number of characters, or don't force hard wrapping at all. |
+| ~root~                     | Whether or not to stop the ~.editorconfig~ file search on the current file.                 |
 
 * Customizing the Minibuffer
 
@@ -145,12 +202,16 @@ The [[https://github.com/emacs-evil/evil-surround][~evil-surround~]] provides th
     (which-key-mode 1))
 #+END_SRC
 
+[[https://github.com/minad/vertico][Vertico]] displays minibuffer completions in a vertical interactive menu.
+
 #+BEGIN_SRC emacs-lisp
   (use-package vertico
     :functions vertico-mode
     :config
     (vertico-mode))
 #+END_SRC
+
+[[https://github.com/minad/marginalia][Marginalia]] adds annotations to items in the minibuffer completions.
 
 #+BEGIN_SRC emacs-lisp
   ;; Enable rich annotations using the Marginalia package
@@ -172,35 +233,39 @@ The [[https://github.com/emacs-evil/evil-surround][~evil-surround~]] provides th
 
 ** Haskell
 
+Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from being shown in a seperate buffer. Instead errors are shown in the minibuffer, or in the interactive Haskell buffer if one exists.
+
 #+BEGIN_SRC emacs-lisp
   (use-package haskell-mode
-    :config (setq-default haskell-interactive-popup-errors nil)
+    :custom (haskell-interactive-popup-errors nil)
     :mode ("\\.hs\\'" . haskell-mode))
 #+END_SRC
 
 ** Markdown
+
+[[https://jblevins.org/projects/markdown-mode/][Markdown Mode]] adds editor support for Markdown. Setting ~markdown-asymmetic-header~ to ~t~ allows for ~# Header~ style headers to be used in addition to ~# Header #~ style headers and setting ~markdown-enable-math~ to ~t~ enables support for LaTeX math expressions.
 
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
     :defines
     markdown-asymmetric-header
     markdown-enable-math
-    markdown-enable-wikilinks
     :config
     (setq markdown-asymmetric-header t)
     (setq markdown-enable-math t)
-    (setq markdown-enable-wikilinks t))
 #+END_SRC
 
 ** Org
 
+Enabling ~visual-line-mode~ wraps lines on the nearest space. While this makes prose easier to read, it will make large tables rather unreadable. You can toggle this mode by running ~visual-line-mode~ interactively.
+
+Setting ~org-log-done~ to ~'time~ places the time and date under completed TODO items.
+
 #+BEGIN_SRC emacs-lisp
   (use-package org
     :hook
-    ;; Auto-break lines at `fill-column`
     (org-mode . visual-line-mode)
     :custom
-    ;; Place the time and date under completed TODO items
     (org-log-done 'time))
 #+END_SRC
 
@@ -217,7 +282,7 @@ Org Babel only enables support for Emacs Lisp by default. We can enable other la
 
 *** Customizing LaTeX source code output
 
-Org Babel tends to use the LaTeX package, [[https://ctan.org/pkg/listings?lang=en][/listings/]], to generate source code blocks. I think the [[https://ctan.org/pkg/minted?lang=en][/minted/]] package produces much prettier output, so we can force Org Babel to use it instead of /listings/.
+Org Babel tends to use the LaTeX package, [[https://ctan.org/pkg/listings?lang=en][listings]], to generate source code blocks. I think the [[https://ctan.org/pkg/minted?lang=en][minted]] package produces much prettier output, so we can force Org Babel to use it instead.
 
 #+BEGIN_SRC emacs-lisp
   (require 'ox-latex)
@@ -225,7 +290,7 @@ Org Babel tends to use the LaTeX package, [[https://ctan.org/pkg/listings?lang=e
   (setq-default org-latex-listings 'minted)
 #+END_SRC
 
-In order for /minted/ to work, [[https://pygments.org/][/pygments/]] must be installed. Adding the ~-shell-escape~ flag to our invokation of ~pdflatex~ allows the process to access the ~pygmentize~ binary on the system.
+In order for /minted/ to work, [[https://pygments.org/][pygments]] must be installed. Adding the ~-shell-escape~ flag to our invokation of ~pdflatex~ allows the process to access the ~pygmentize~ binary on the system.
 
 #+BEGIN_SRC emacs-lisp
   (setq-default org-latex-pdf-process
@@ -240,6 +305,18 @@ Here, we can tell /minted/ to break long lines instead of having them run off th
 					   ("breakanywhere" "true")))
 #+END_SRC
 
+*** Wrapping text in LaTeX tables
+
+When exporting an Org document to a PDF using LaTeX, tables with particularly long lines of text may extend off the page. The [[https://texdoc.org/serve/tabularx/0][tabularx]] package implements a version of the tabular environment where the widths of some columns are calculated so that the table fits within a given width.
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'org-latex-packages-alist '("" "tabularx"))
+#+END_SRC
+
+This package provides a new ~tabularx~ environment as well as a new alignment specifier, ~X~, which states that the column's width should be determined dynamically.
+
+We can make an Org table use this environment by supplying the ~:environment tabularx~ option in an ~#+ATTR_LATEX~ directive above the table. We can set the width of the table to the width of the text block using the ~:width \textwidth~ option in that same directive, and set all columns to be dynamically sized using the ~:align XXX~ option. You'll have to replace the ~X~'s in this option with a number of ~X~'s equal to the number of columns in your table.
+
 ** Python
 
 #+BEGIN_SRC emacs-lisp
@@ -253,6 +330,8 @@ Here, we can tell /minted/ to break long lines instead of having them run off th
 #+END_SRC
 
 ** Scheme
+
+[[https://www.nongnu.org/geiser/index.html][Geiser]] is a collection of major and minor modes for Scheme hacking with support for several implementations. I've included the REPLs for [[https://racket-lang.org/][Racket]] and [[https://www.gnu.org/software/guile/][GNU Guile]].
 
 #+BEGIN_SRC emacs-lisp
   (use-package geiser)
