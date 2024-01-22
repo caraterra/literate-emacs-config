@@ -252,7 +252,7 @@ Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from b
     markdown-enable-math
     :config
     (setq markdown-asymmetric-header t)
-    (setq markdown-enable-math t)
+    (setq markdown-enable-math t))
 #+END_SRC
 
 ** Org
