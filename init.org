@@ -132,13 +132,6 @@ The [[https://github.com/emacs-evil/evil-surround][evil-surround]] package provi
 | ~<~ or ~t~           | An HTML or XML tag. Prompts for tag attributes.          |
 | ~f~                  | A function. Prompts for function name, e.g. ~print(foo)~ |
 
-* Syntax Checking with FlyCheck
-
-#+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-    :init (global-flycheck-mode))
-#+END_SRC
-
 * Document Conversion with Pandoc
 
 Pandoc allows us to convert our working file into one of many document formats. The [[https://joostkremers.github.io/pandoc-mode/][pandoc-mode]] plugin integrates this tool in the editor with an interactive menu. Here, I have the mode enabled when working in Markdown or TeX mode.
