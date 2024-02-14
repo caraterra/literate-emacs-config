@@ -43,6 +43,10 @@ Here, I put my base Emacs configurations into a single ~use-package~ block to ke
     (load-theme (if (display-graphic-p) 'modus-operandi 'modus-vivendi))
     ;; Enable column numbering
     (column-number-mode)
+    ;; Disable scroll bars
+    (scroll-bar-mode 0)
+    ;; Use minimal fringes
+    (fringe-mode '(1 . 1))
     :hook
     ;; Enable line numbering in `prog-mode'
     (prog-mode . display-line-numbers-mode)
