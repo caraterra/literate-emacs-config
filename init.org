@@ -241,6 +241,7 @@ Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from b
 
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
+    :mode "\\.\\(md\\|markdown\\)\\'"
     :defines
     markdown-asymmetric-header
     markdown-enable-math
@@ -314,13 +315,15 @@ We can make an Org table use this environment by supplying the ~:environment tab
 ** Python
 
 #+BEGIN_SRC emacs-lisp
-  (use-package python)
+  (use-package python
+    :mode "\\.py\\'")
 #+END_SRC
 
 ** Rust
 
 #+BEGIN_SRC emacs-lisp
-  (use-package rust-mode)
+  (use-package rust-mode
+    :mode "\\.rs\\'")
 #+END_SRC
 
 ** Scheme
