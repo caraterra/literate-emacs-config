@@ -53,6 +53,8 @@ Here, I put my base Emacs configurations into a single ~use-package~ block to ke
     ;; Enable line numbering in `prog-mode'
     (prog-mode . display-line-numbers-mode)
     :custom
+    ;; Set garbage collector threshold to 3M
+    (gc-cons-threshold 3000000)
     ;; Set relative line numbering
     (display-line-numbers-type 'relative)
     ;; Don't display the startup message
