@@ -66,9 +66,10 @@ This package remedies this issue by forcing Emacs to inherit environment variabl
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
     :functions exec-path-from-shell-initialize
+    :custom (exec-path-from-shell-arguments nil)
     :config
-    (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize))
-    (when (daemonp) (exec-path-from-shell-initialize)))
+    (when (or (memq window-system '(mac ns x))
+	      (daemonp)) (exec-path-from-shell-initialize)))
 #+END_SRC
 
 * Using VIM Bindings
