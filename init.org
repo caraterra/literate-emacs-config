@@ -351,7 +351,12 @@ We can make an Org table use this environment by supplying the ~:environment tab
 [[https://www.nongnu.org/geiser/index.html][Geiser]] is a collection of major and minor modes for Scheme hacking with support for several implementations. I've included the REPLs for [[https://racket-lang.org/][Racket]] and [[https://www.gnu.org/software/guile/][GNU Guile]].
 
 #+BEGIN_SRC emacs-lisp
-  (use-package geiser)
-  (use-package geiser-racket)
-  (use-package geiser-guile)
+  (use-package geiser
+    :hook (scheme-mode . geiser-mode))
+
+  (use-package geiser-racket
+    :after geiser)
+
+  (use-package geiser-guile
+    :after geiser)
 #+END_SRC
