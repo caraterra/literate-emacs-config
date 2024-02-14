@@ -334,7 +334,19 @@ We can make an Org table use this environment by supplying the ~:environment tab
     :mode "\\.rs\\'")
 #+END_SRC
 
-** Scheme
+** Lisps
+
+[[https://paredit.org/][ParEdit]] is a minor mode that adds functionality for editing S-expressions. We enable its mode whenever the mode for any Lisp-like language is enabled. Dan Midwood has created [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][an animated guide]] on how to use this mode.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package paredit
+    :hook
+    (common-lisp-mode . paredit-mode)
+    (emacs-lisp-mode . paredit-mode)
+    (scheme-mode . paredit-mode))
+#+END_SRC
+
+*** Scheme
 
 [[https://www.nongnu.org/geiser/index.html][Geiser]] is a collection of major and minor modes for Scheme hacking with support for several implementations. I've included the REPLs for [[https://racket-lang.org/][Racket]] and [[https://www.gnu.org/software/guile/][GNU Guile]].
 
