@@ -1,6 +1,18 @@
 #+TITLE: A Literate GNU Emacs Configuration
 #+PROPERTY: header-args :tangle yes
 
+* Inhibiting Garbage Collections During Initialization
+
+This setting increases the garbage collection threshold and percentage to inhibit collections during startup. Once startup has completed, these values are reset to something more reasonable. This is done in [[* Restoring Garbage Collection Thresholds]].
+
+#+begin_src emacs-lisp
+  (defconst gc-cons-threshold-high (* 128 1024 1024))
+  (defconst gc-cons-percentage-high 0.5)
+
+  (setq gc-cons-percentage gc-cons-percentage-high
+	gc-cons-threshold gc-cons-threshold-high)
+#+end_src
+
 * Setting Up The Repositories
 
 This section populates the ~package-archives~ list with the desired Emacs package repositories. The elements of this list are /name-URL/ pairs.
@@ -66,8 +78,6 @@ Here, I put my base Emacs configurations into a single ~use-package~ block to ke
     ;; Enable line numbering in `prog-mode'
     (prog-mode . display-line-numbers-mode)
     :custom
-    ;; Set garbage collector threshold to 3M
-    (gc-cons-threshold 3000000)
     ;; Set relative line numbering
     (display-line-numbers-type 'relative)
     ;; Don't display the startup message
@@ -390,4 +400,18 @@ We can make an Org table use this environment by supplying the ~:environment tab
     (org-roam-directory (file-truename "~/Documents/org-roam"))
     :config
     (org-roam-db-autosync-mode))
+#+END_SRC
+
+* Restoring Garbage Collection Thresholds
+
+This configuration sets the garbage collection thresholds that were changed in [[* Inhibiting Garbage Collections During Initialization]] to lower values. This is done here, rather than in the ~after-init-hook~, so that the values are properly restored even when running Emacs with the ~-l~ command line option or when reloading this file with ~load-file~.
+
+#+BEGIN_SRC emacs-lisp
+  (defconst gc-cons-threshold-low (* 6 1024 1024))
+  (defconst gc-cons-percentage-low 0.1)
+
+  (setq gc-cons-percentage gc-cons-percentage-low
+	gc-cons-threshold gc-cons-threshold-low)
+
+  (garbage-collect)
 #+END_SRC
