@@ -96,6 +96,7 @@ This package remedies this issue by forcing Emacs to inherit environment variabl
 
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
+    :ensure t
     :functions exec-path-from-shell-initialize
     :custom (exec-path-from-shell-arguments nil)
     :config
@@ -114,6 +115,7 @@ This package remedies this issue by forcing Emacs to inherit environment variabl
 
 #+BEGIN_SRC emacs-lisp
   (use-package evil
+    :ensure t
     :functions evil-mode
     :config
     (setq-default evil-undo-system 'undo-redo)
@@ -126,6 +128,7 @@ The [[https://github.com/emacs-evil/evil-surround][evil-surround]] package provi
 
 #+BEGIN_SRC emacs-lisp
   (use-package evil-surround
+    :ensure t
     :requires evil
     :functions global-evil-surround-mode
     :config
@@ -170,6 +173,7 @@ Pandoc allows us to convert our working file into one of many document formats. 
 
 #+BEGIN_SRC emacs-lisp
   (use-package pandoc-mode
+    :ensure t
     :hook
     (markdown-mode . pandoc-mode)
     (tex-mode . pandoc-mode))
@@ -178,7 +182,8 @@ Pandoc allows us to convert our working file into one of many document formats. 
 * Magit
 
 #+BEGIN_SRC emacs-lisp
-  (use-package magit)
+  (use-package magit
+    :ensure t)
 #+END_SRC
 
 * Using the System Clipboard
@@ -187,6 +192,7 @@ When running Emacs in the terminal, yanked text is copied to an internal buffer.
 
 #+BEGIN_SRC emacs-lisp
   (use-package xclip
+    :ensure t
     :functions xclip-mode
     :config
     (xclip-mode 1))
@@ -198,6 +204,7 @@ The EditorConfig package looks for ~.editorconfig~ files in the project director
 
 #+BEGIN_SRC emacs-lisp
   (use-package editorconfig
+    :ensure t
     :functions editorconfig-mode
     :config
     (editorconfig-mode 1))
@@ -220,6 +227,7 @@ The EditorConfig package looks for ~.editorconfig~ files in the project director
 
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
+    :ensure t
     :defines which-key-idle-delay
     :functions which-key-mode
     :config
@@ -231,6 +239,7 @@ The EditorConfig package looks for ~.editorconfig~ files in the project director
 
 #+BEGIN_SRC emacs-lisp
   (use-package vertico
+    :ensure t
     :functions vertico-mode
     :config
     (vertico-mode))
@@ -241,6 +250,7 @@ The EditorConfig package looks for ~.editorconfig~ files in the project director
 #+BEGIN_SRC emacs-lisp
   ;; Enable rich annotations using the Marginalia package
   (use-package marginalia
+    :ensure t
     ;; Bind `marginalia-cycle' locally in the minibuffer. To make the binding
     ;; available in the *Completions* buffer, add it to the
     ;; `completion-list-mode-map'.
@@ -262,6 +272,7 @@ Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from b
 
 #+BEGIN_SRC emacs-lisp
   (use-package haskell-mode
+    :ensure t
     :custom (haskell-interactive-popup-errors nil)
     :mode ("\\.hs\\'" . haskell-mode))
 #+END_SRC
@@ -272,6 +283,7 @@ Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from b
 
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
+    :ensure t
     :mode "\\.\\(md\\|markdown\\)\\'"
     :defines
     markdown-asymmetric-header
@@ -352,6 +364,7 @@ We can make an Org table use this environment by supplying the ~:environment tab
 
 #+BEGIN_SRC emacs-lisp
   (use-package python
+    :ensure t
     :mode "\\.py\\'")
 #+END_SRC
 
@@ -359,6 +372,7 @@ We can make an Org table use this environment by supplying the ~:environment tab
 
 #+BEGIN_SRC emacs-lisp
   (use-package rust-mode
+    :ensure t
     :mode "\\.rs\\'")
 #+END_SRC
 
@@ -368,6 +382,7 @@ We can make an Org table use this environment by supplying the ~:environment tab
 
 #+BEGIN_SRC emacs-lisp
   (use-package paredit
+    :ensure t
     :hook
     (common-lisp-mode . paredit-mode)
     (emacs-lisp-mode . paredit-mode)
@@ -380,12 +395,15 @@ We can make an Org table use this environment by supplying the ~:environment tab
 
 #+BEGIN_SRC emacs-lisp
   (use-package geiser
+    :ensure t
     :hook (scheme-mode . geiser-mode))
 
   (use-package geiser-racket
+    :ensure t
     :after geiser)
 
   (use-package geiser-guile
+    :ensure t
     :after geiser)
 #+END_SRC
 
@@ -393,6 +411,7 @@ We can make an Org table use this environment by supplying the ~:environment tab
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
+    :ensure t
     :bind (("C-c n l" . org-roam-buffer-toggle)
 	   ("C-c n f" . org-roam-node-find)
 	   ("C-c n i" . org-roam-node-insert))
