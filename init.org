@@ -48,7 +48,7 @@ This function will switch to the scratch buffer, and kill all other open buffers
   (defun kill-all-buffers ()
     "Kill all buffers except the scratch buffer."
     (interactive)
-    (scratch)
+    (scratch-buffer)
     (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 #+END_SRC
 
