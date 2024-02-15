@@ -28,12 +28,25 @@ This section populates the ~package-archives~ list with the desired Emacs packag
     (require 'use-package))
 #+END_SRC
 
+* Killing All Open Buffers
+
+This function will switch to the scratch buffer, and kill all other open buffers. We'll create a keybinding for this in [[*Configuring Emacs]].
+
+#+BEGIN_SRC emacs-lisp
+  (defun kill-all-buffers ()
+    "Kill all buffers except the scratch buffer."
+    (interactive)
+    (scratch)
+    (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+#+END_SRC
+
 * Configuring Emacs
 
 Here, I put my base Emacs configurations into a single ~use-package~ block to keep everything in one place, and to shorten some common expressions using the ~:hook~ and ~:custom~ options.
 
 #+BEGIN_SRC emacs-lisp
   (use-package emacs
+    :bind ("C-x M-k" . kill-all-buffers)
     :config
     ;; Disable the tool bar (graphical only)
     (tool-bar-mode 0)
