@@ -1,5 +1,5 @@
-#+TITLE: A Literate GNU Emacs Configuration
-#+PROPERTY: header-args :tangle yes
+#+title: A Literate GNU Emacs Configuration
+#+property: header-args :tangle yes
 
 * Inhibiting Garbage Collections During Initialization
 
@@ -17,7 +17,7 @@ This setting increases the garbage collection threshold and percentage to inhibi
 
 This section populates the ~package-archives~ list with the desired Emacs package repositories. The elements of this list are /name-URL/ pairs.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (require 'package)
   (package-initialize)
   (setq package-install-upgrade-built-in t)
@@ -25,38 +25,38 @@ This section populates the ~package-archives~ list with the desired Emacs packag
   (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
   (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
-#+END_SRC
+#+end_src
 
 * Configuring ~use-package~
 
 [[https://github.com/jwiegley/use-package][use-package]] provides macros for loading and configuring Emacs packages. We'll load it here, installing it from the repositories if it's not already installed.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (unless (package-installed-p 'use-package)
 	  (package-refresh-contents)
 	  (package-install 'use-package))
 
   (eval-when-compile
     (require 'use-package))
-#+END_SRC
+#+end_src
 
 * Killing All Open Buffers
 
 This function will switch to the scratch buffer, and kill all other open buffers. We'll create a keybinding for this in [[*Configuring Emacs]].
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (defun kill-all-buffers ()
     "Kill all buffers except the scratch buffer."
     (interactive)
     (scratch-buffer)
     (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
-#+END_SRC
+#+end_src
 
 * Configuring Emacs
 
 Here, I put my base Emacs configurations into a single ~use-package~ block to keep everything in one place, and to shorten some common expressions using the ~:hook~ and ~:custom~ options.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package emacs
     :bind ("C-x M-k" . kill-all-buffers)
     :config
@@ -86,7 +86,7 @@ Here, I put my base Emacs configurations into a single ~use-package~ block to ke
     (comint-prompt-read-only t)
     ;; Disable the bell
     (ring-bell-function #'ignore))
-#+END_SRC
+#+end_src
 
 * Populating the Executable Path
 
@@ -94,7 +94,7 @@ When Emacs is run as a graphical application in MacOS, or as a daemon, it inheri
 
 This package remedies this issue by forcing Emacs to inherit environment variables from the user's shell at runtime.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package exec-path-from-shell
     :ensure t
     :functions exec-path-from-shell-initialize
@@ -102,38 +102,38 @@ This package remedies this issue by forcing Emacs to inherit environment variabl
     :config
     (when (or (memq window-system '(mac ns x))
 	      (daemonp)) (exec-path-from-shell-initialize)))
-#+END_SRC
+#+end_src
 
 * Using VIM Bindings
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq scroll-step 1
 	scroll-conservatively 10000
 	next-screen-context-lines 5
 	line-move-visual nil)
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package evil
     :ensure t
     :functions evil-mode
     :config
     (setq-default evil-undo-system 'undo-redo)
     (evil-mode 1))
-#+END_SRC
+#+end_src
 
 ** VIM Surround
 
 The [[https://github.com/emacs-evil/evil-surround][evil-surround]] package provides the same functionality as tpope's VIM plugin, [[https://github.com/tpope/vim-surround][vim-surround]].
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package evil-surround
     :ensure t
     :requires evil
     :functions global-evil-surround-mode
     :config
     (global-evil-surround-mode 1))
-#+END_SRC
+#+end_src
 
 #+ATTR_LATEX: :environment tabularx :width \textwidth :align XX
 | Mapping                       | Description                                                                                               |
@@ -171,44 +171,44 @@ The [[https://github.com/emacs-evil/evil-surround][evil-surround]] package provi
 
 Pandoc allows us to convert our working file into one of many document formats. The [[https://joostkremers.github.io/pandoc-mode/][pandoc-mode]] plugin integrates this tool in the editor with an interactive menu. Here, I have the mode enabled when working in Markdown or TeX mode.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package pandoc-mode
     :ensure t
     :hook
     (markdown-mode . pandoc-mode)
     (tex-mode . pandoc-mode))
-#+END_SRC
+#+end_src
 
 * Magit
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package magit
     :ensure t)
-#+END_SRC
+#+end_src
 
 * Using the System Clipboard
 
 When running Emacs in the terminal, yanked text is copied to an internal buffer. The ~xclip~ package allows Emacs to copy and paste from the system clipboard using external command line tools.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package xclip
     :ensure t
     :functions xclip-mode
     :config
     (xclip-mode 1))
-#+END_SRC
+#+end_src
 
 * EditorConfig Support
 
 The EditorConfig package looks for ~.editorconfig~ files in the project directory and configures editor settings based on the directives within the file. See the [[https://editorconfig.org/][EditorConfig documentation]] for more information.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package editorconfig
     :ensure t
     :functions editorconfig-mode
     :config
     (editorconfig-mode 1))
-#+END_SRC
+#+end_src
 
 #+ATTR_LATEX: :environment tabularx :width \textwidth :align XX
 | EditorConfig Properties    | Description                                                                                 |
@@ -225,7 +225,7 @@ The EditorConfig package looks for ~.editorconfig~ files in the project director
 
 * Customizing the Minibuffer
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package which-key
     :ensure t
     :defines which-key-idle-delay
@@ -233,21 +233,21 @@ The EditorConfig package looks for ~.editorconfig~ files in the project director
     :config
     (setq which-key-idle-delay 0.5)
     (which-key-mode 1))
-#+END_SRC
+#+end_src
 
 [[https://github.com/minad/vertico][Vertico]] displays minibuffer completions in a vertical interactive menu.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package vertico
     :ensure t
     :functions vertico-mode
     :config
     (vertico-mode))
-#+END_SRC
+#+end_src
 
 [[https://github.com/minad/marginalia][Marginalia]] adds annotations to items in the minibuffer completions.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   ;; Enable rich annotations using the Marginalia package
   (use-package marginalia
     :ensure t
@@ -262,7 +262,7 @@ The EditorConfig package looks for ~.editorconfig~ files in the project director
     ;; such that the mode gets enabled right away. Note that this forces
     ;; loading the package.
     (marginalia-mode))
-#+END_SRC
+#+end_src
 
 * Language Support
 
@@ -270,18 +270,18 @@ The EditorConfig package looks for ~.editorconfig~ files in the project director
 
 Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from being shown in a seperate buffer. Instead errors are shown in the minibuffer, or in the interactive Haskell buffer if one exists.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package haskell-mode
     :ensure t
     :custom (haskell-interactive-popup-errors nil)
     :mode ("\\.hs\\'" . haskell-mode))
-#+END_SRC
+#+end_src
 
 ** Markdown
 
 [[https://jblevins.org/projects/markdown-mode/][Markdown Mode]] adds editor support for Markdown. Setting ~markdown-asymmetic-header~ to ~t~ allows for ~# Header~ style headers to be used in addition to ~# Header #~ style headers and setting ~markdown-enable-math~ to ~t~ enables support for LaTeX math expressions.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package markdown-mode
     :ensure t
     :mode "\\.\\(md\\|markdown\\)\\'"
@@ -291,7 +291,7 @@ Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from b
     :config
     (setq markdown-asymmetric-header t)
     (setq markdown-enable-math t))
-#+END_SRC
+#+end_src
 
 ** Org
 
@@ -299,31 +299,31 @@ Enabling ~visual-line-mode~ wraps lines on the nearest space. While this makes p
 
 Setting ~org-log-done~ to ~'time~ places the time and date under completed TODO items.
 
-#+BEGIN_SRC emacs-lisp :noweb yes
+#+begin_src emacs-lisp :noweb yes
   (use-package org
     :config
     <<org-babel-config>>
     :hook (org-mode . visual-line-mode)
     :custom (org-log-done 'time))
-#+END_SRC
+#+end_src
 
 *** Adding additional language support to Org Babel
 
 Org Babel only enables support for Emacs Lisp by default. We can enable other languages by adding them to the list in the following command.
 
 #+NAME: org-babel-config
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (org-babel-do-load-languages 'org-babel-load-languages
 			       '((C . t)
 				 (emacs-lisp . t)
 				 (scheme . t)))
-#+END_SRC
+#+end_src
 
 *** Customizing LaTeX source code output
 
 Org Babel tends to use the LaTeX package, [[https://ctan.org/pkg/listings?lang=en][listings]], to generate source code blocks. I think the [[https://ctan.org/pkg/minted?lang=en][minted]] package produces much prettier output, so we can force Org Babel to use it instead.
 
-#+BEGIN_SRC emacs-lisp :noweb yes
+#+begin_src emacs-lisp :noweb yes
   (use-package ox-latex
     :after org
     :config
@@ -335,26 +335,26 @@ Org Babel tends to use the LaTeX package, [[https://ctan.org/pkg/listings?lang=e
      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
     <<org-latex-minted-breaklines>>)
-#+END_SRC
+#+end_src
 
 In order for /minted/ to work, [[https://pygments.org/][pygments]] must be installed. Adding the ~-shell-escape~ flag to our invokation of ~pdflatex~ allows the process to access the ~pygmentize~ binary on the system.
 
 We can also tell /minted/ to break long lines instead of having them run off the page.
 
 #+NAME: org-latex-minted-breaklines
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (org-latex-minted-options '(("breaklines" "true")
 			      ("breakanywhere" "true")))
-#+END_SRC
+#+end_src
 
 *** Wrapping text in LaTeX tables
 
 When exporting an Org document to a PDF using LaTeX, tables with particularly long lines of text may extend off the page. The [[https://texdoc.org/serve/tabularx/0][tabularx]] package implements a version of the tabular environment where the widths of some columns are calculated so that the table fits within a given width.
 
 #+NAME: org-latex-include-tabularx
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
     (add-to-list 'org-latex-packages-alist '("" "tabularx"))
-#+END_SRC
+#+end_src
 
 This package provides a new ~tabularx~ environment as well as a new alignment specifier, ~X~, which states that the column's width should be determined dynamically.
 
@@ -362,38 +362,38 @@ We can make an Org table use this environment by supplying the ~:environment tab
 
 ** Python
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package python
     :ensure t
     :mode "\\.py\\'")
-#+END_SRC
+#+end_src
 
 ** Rust
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package rust-mode
     :ensure t
     :mode "\\.rs\\'")
-#+END_SRC
+#+end_src
 
 ** Lisps
 
 [[https://paredit.org/][ParEdit]] is a minor mode that adds functionality for editing S-expressions. We enable its mode whenever the mode for any Lisp-like language is enabled. Dan Midwood has created [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][an animated guide]] on how to use this mode.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package paredit
     :ensure t
     :hook
     (common-lisp-mode . paredit-mode)
     (emacs-lisp-mode . paredit-mode)
     (scheme-mode . paredit-mode))
-#+END_SRC
+#+end_src
 
 *** Scheme
 
 [[https://www.nongnu.org/geiser/index.html][Geiser]] is a collection of major and minor modes for Scheme hacking with support for several implementations. I've included the REPLs for [[https://racket-lang.org/][Racket]] and [[https://www.gnu.org/software/guile/][GNU Guile]].
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package geiser
     :ensure t
     :hook (scheme-mode . geiser-mode))
@@ -405,11 +405,11 @@ We can make an Org table use this environment by supplying the ~:environment tab
   (use-package geiser-guile
     :ensure t
     :after geiser)
-#+END_SRC
+#+end_src
 
 * Note-Taking with Org Roam
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package org-roam
     :ensure t
     :bind (("C-c n l" . org-roam-buffer-toggle)
@@ -419,13 +419,13 @@ We can make an Org table use this environment by supplying the ~:environment tab
     (org-roam-directory (file-truename "~/Documents/org-roam"))
     :config
     (org-roam-db-autosync-mode))
-#+END_SRC
+#+end_src
 
 * Restoring Garbage Collection Thresholds
 
 This configuration sets the garbage collection thresholds that were changed in [[* Inhibiting Garbage Collections During Initialization]] to lower values. This is done here, rather than in the ~after-init-hook~, so that the values are properly restored even when running Emacs with the ~-l~ command line option or when reloading this file with ~load-file~.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (defconst gc-cons-threshold-low (* 6 1024 1024))
   (defconst gc-cons-percentage-low 0.1)
 
@@ -433,4 +433,4 @@ This configuration sets the garbage collection thresholds that were changed in [
 	gc-cons-threshold gc-cons-threshold-low)
 
   (garbage-collect)
-#+END_SRC
+#+end_src
