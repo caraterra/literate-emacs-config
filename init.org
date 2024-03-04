@@ -6,6 +6,9 @@
 This setting increases the garbage collection threshold and percentage to inhibit collections during startup. Once startup has completed, these values are reset to something more reasonable. This is done in [[* Restoring Garbage Collection Thresholds]].
 
 #+begin_src emacs-lisp
+  (defconst gc-cons-threshold-low (* 3 1024 1024))
+  (defconst gc-cons-percentage-low gc-cons-percentage)
+
   (defconst gc-cons-threshold-high (* 128 1024 1024))
   (defconst gc-cons-percentage-high 0.5)
 
@@ -426,9 +429,6 @@ We can make an Org table use this environment by supplying the ~:environment tab
 This configuration sets the garbage collection thresholds that were changed in [[* Inhibiting Garbage Collections During Initialization]] to lower values. This is done here, rather than in the ~after-init-hook~, so that the values are properly restored even when running Emacs with the ~-l~ command line option or when reloading this file with ~load-file~.
 
 #+begin_src emacs-lisp
-  (defconst gc-cons-threshold-low (* 6 1024 1024))
-  (defconst gc-cons-percentage-low 0.1)
-
   (setq gc-cons-percentage gc-cons-percentage-low
 	gc-cons-threshold gc-cons-threshold-low)
 
