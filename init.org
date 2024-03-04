@@ -400,6 +400,15 @@ This package provides a new ~tabularx~ environment as well as a new alignment sp
 
 We can make an Org table use this environment by supplying the ~:environment tabularx~ option in an ~#+ATTR_LATEX~ directive above the table. We can set the width of the table to the width of the text block using the ~:width \textwidth~ option in that same directive, and set all columns to be dynamically sized using the ~:align XXX~ option. You'll have to replace the ~X~'s in this option with a number of ~X~'s equal to the number of columns in your table.
 
+*** Exporting Org as Markdown
+
+This directive enables the built-in package that allows Org files to be exported in Markdown format.
+
+#+begin_src emacs-lisp
+  (use-package ox-md
+    :after org)
+#+end_src
+
 ** Python
 
 #+begin_src emacs-lisp
