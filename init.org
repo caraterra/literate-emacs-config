@@ -269,6 +269,17 @@ The EditorConfig package looks for ~.editorconfig~ files in the project director
 
 * Language Support
 
+** C, C++ and Java
+
+These options set C, C++, and Java modes to use four-space indentation and the K&R brace style, rather than the default two-space GNU style.
+
+#+begin_src emacs-lisp
+  (use-package cc-mode
+    :custom
+    (c-default-style "k&r")
+    (c-basic-offset 4))
+#+end_src
+
 ** Haskell
 
 Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from being shown in a seperate buffer. Instead errors are shown in the minibuffer, or in the interactive Haskell buffer if one exists.
