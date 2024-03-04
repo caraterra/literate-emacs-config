@@ -302,6 +302,7 @@ Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from b
     :defines
     markdown-asymmetric-header
     markdown-enable-math
+    :hook (markdown-mode . visual-line-mode)
     :config
     (setq markdown-asymmetric-header t)
     (setq markdown-enable-math t))
