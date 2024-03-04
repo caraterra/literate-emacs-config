@@ -316,9 +316,34 @@ Setting ~org-log-done~ to ~'time~ places the time and date under completed TODO 
 #+begin_src emacs-lisp :noweb yes
   (use-package org
     :config
+    <<org-todo-keywords>>
     <<org-babel-config>>
     :hook (org-mode . visual-line-mode)
     :custom (org-log-done 'time))
+#+end_src
+
+*** Adding additional TODO keywords
+
+- =TODO=. Indicates a task that needs to get done.
+- =DONE=. Indicates a completed task.
+- =HOLD=. Indicates a task that is stuck waiting for something else to be completed.
+- =INACTIVE=. Indicates a task that was once needed, but where work has stopped for the time being.
+- =CANCELLED=. Indicates a task that was once needed, but where work has stopped indefinitely.
+
+The =HOLD=, =INACTIVE=, and =CANCELLED= states will prompt the user for a note stating why the task has entered that state.
+
+#+NAME: org-todo-keywords
+#+begin_src emacs-lisp
+  (setq org-todo-keywords
+	'((sequence "TODO(t)" "DONE(d)")
+	  (sequence "HOLD(h@)" "INACTIVE(i@)" "CANCELLED(c@)")))
+
+  (setq org-todo-keyword-faces
+	'(("TODO" :foreground "dark red" :weight bold)
+	  ("DONE" :foreground "dark green" :weight bold)
+	  ("HOLD" :foreground "dark blue" :weight bold)
+	  ("INACTIVE" :foreground "dark gray" :weight bold)
+	  ("CANCELLED" :foreground "dim gray" :weight bold)))
 #+end_src
 
 *** Adding additional language support to Org Babel
