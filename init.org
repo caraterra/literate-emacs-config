@@ -59,7 +59,7 @@ This function will switch to the scratch buffer, and kill all other open buffers
 
 Here, I put my base Emacs configurations into a single ~use-package~ block to keep everything in one place, and to shorten some common expressions using the ~:hook~ and ~:custom~ options.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :noweb yes
   (use-package emacs
     :bind ("C-x M-k" . kill-all-buffers)
     :config
@@ -77,6 +77,8 @@ Here, I put my base Emacs configurations into a single ~use-package~ block to ke
     (fringe-mode '(1 . 1))
     ;; Enable performance mitigations for files with long lines
     (global-so-long-mode)
+    ;; Silence warnings from native compilation
+    <<silence-native-comp-warnings>>
     :hook
     ;; Enable line numbering in `prog-mode'
     (prog-mode . display-line-numbers-mode)
@@ -89,6 +91,16 @@ Here, I put my base Emacs configurations into a single ~use-package~ block to ke
     (comint-prompt-read-only t)
     ;; Disable the bell
     (ring-bell-function #'ignore))
+#+end_src
+
+** Silencing Native Compilation Warnings
+
+When natively compiling Emacs Lisp packages, some warnings may be produced by the compiler. Only the package developers need to worry about these, so we'll silence them here.
+
+#+NAME: silence-native-comp-warnings
+#+begin_src emacs-lisp
+  (when (native-comp-available-p)
+    (setq native-comp-async-report-warnings-errors 'silent))
 #+end_src
 
 * Populating the Executable Path
