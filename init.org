@@ -133,9 +133,8 @@ This package remedies this issue by forcing Emacs to inherit environment variabl
   (use-package evil
     :ensure t
     :functions evil-mode
-    :config
-    (setq-default evil-undo-system 'undo-redo)
-    (evil-mode 1))
+    :custom (evil-undo-system 'undo-redo)
+    :config (evil-mode 1))
 #+end_src
 
 ** VIM Surround
@@ -246,9 +245,8 @@ The EditorConfig package looks for ~.editorconfig~ files in the project director
     :ensure t
     :defines which-key-idle-delay
     :functions which-key-mode
-    :config
-    (setq which-key-idle-delay 0.5)
-    (which-key-mode 1))
+    :custom (which-key-idle-delay 0.5)
+    :config (which-key-mode 1))
 #+end_src
 
 [[https://github.com/minad/vertico][Vertico]] displays minibuffer completions in a vertical interactive menu.
@@ -316,9 +314,9 @@ Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from b
     markdown-asymmetric-header
     markdown-enable-math
     :hook (markdown-mode . visual-line-mode)
-    :config
-    (setq markdown-asymmetric-header t)
-    (setq markdown-enable-math t))
+    :custom
+    (markdown-asymmetric-header t)
+    (markdown-enable-math t))
 #+end_src
 
 ** Org
