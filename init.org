@@ -491,7 +491,7 @@ This directive enables the built-in package that allows Org files to be exported
     (interactive "r")
     (let ((source-buffer (current-buffer)))
       (org-roam-node-find)
-      (end-of-buffer)
+      (goto-char (point-max))
       (insert-buffer-substring source-buffer start end)))
 #+end_src
 
@@ -500,7 +500,7 @@ This directive enables the built-in package that allows Org files to be exported
     "Create an Org Roam node from the selected buffer."
     (interactive "b")
     (org-roam-node-find)
-    (end-of-buffer)
+    (goto-char (point-max))
     (insert-buffer-substring buffer))
 #+end_src
 
