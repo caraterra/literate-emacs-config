@@ -1,5 +1,5 @@
 #+title: A Literate GNU Emacs Configuration
-#+property: header-args :tangle yes
+#+property: header-args :tangle ~/.emacs.d/init.el
 
 * Inhibiting Garbage Collections During Initialization
 
