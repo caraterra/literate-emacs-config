@@ -52,7 +52,7 @@ This function will switch to the scratch buffer, kill all other open buffers, an
     "Kill all buffers except the scratch buffer."
     (interactive)
     (delete-other-windows)
-    (scratch-buffer)
+    (switch-to-buffer (get-scratch-buffer-create))
     (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 #+end_src
 
