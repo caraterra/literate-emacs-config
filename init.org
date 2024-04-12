@@ -318,7 +318,7 @@ Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from b
   (use-package haskell-mode
     :ensure t
     :custom (haskell-interactive-popup-errors nil)
-    :mode ("\\.hs\\'" . haskell-mode))
+    :mode ((rx ".hs" eos) . haskell-mode))
 #+end_src
 
 ** Markdown
@@ -328,7 +328,7 @@ Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from b
 #+begin_src emacs-lisp
   (use-package markdown-mode
     :ensure t
-    :mode "\\.\\(md\\|markdown\\)\\'"
+    :mode (rx "." (or "md" "markdown") eos)
     :defines
     markdown-asymmetric-header
     markdown-enable-math
@@ -444,7 +444,7 @@ This directive enables the built-in package that allows Org files to be exported
 #+begin_src emacs-lisp
   (use-package python
     :ensure t
-    :mode "\\.py\\'")
+    :mode (rx ".py" eos))
 #+end_src
 
 ** Rust
@@ -452,7 +452,7 @@ This directive enables the built-in package that allows Org files to be exported
 #+begin_src emacs-lisp
   (use-package rust-mode
     :ensure t
-    :mode "\\.rs\\'")
+    :mode (rx ".rs" eos))
 #+end_src
 
 ** Lisps
@@ -491,7 +491,7 @@ This directive enables the built-in package that allows Org files to be exported
 #+begin_src emacs-lisp
   (use-package yaml-mode
     :ensure t
-    :mode "\\.\\(yml\\|yaml\\)\\'")
+    :mode (rx "." (or "yml" "yaml") eos))
 #+end_src
 
 * Note-Taking with Org Roam
