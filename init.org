@@ -486,6 +486,14 @@ This directive enables the built-in package that allows Org files to be exported
     :after geiser)
 #+end_src
 
+** YAML
+
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :ensure t
+    :mode "\\.\\(yml\\|yaml\\)\\'")
+#+end_src
+
 * Note-Taking with Org Roam
 
 #+begin_src emacs-lisp
