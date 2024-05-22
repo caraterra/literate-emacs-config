@@ -99,7 +99,7 @@ Here, I put my base Emacs configurations into a single ~use-package~ block to ke
 When natively compiling Emacs Lisp packages, some warnings may be produced by the compiler. Only the package developers need to worry about these, so we'll silence them here.
 
 #+NAME: silence-native-comp-warnings
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (when (native-comp-available-p)
     (setq native-comp-async-report-warnings-errors 'silent))
 #+end_src
@@ -389,7 +389,7 @@ Org Babel only enables support for Emacs Lisp by default. We can enable other la
 By default, the LaTeX article class produces pages with massive margins. We can set it to use one inch margins by including the ~geometry~ package with the ~margin~ variable set.
 
 #+NAME: org-latex-include-geometry
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
     (add-to-list 'org-latex-packages-alist '("margin=1in" "geometry"))
 #+end_src
 
@@ -398,7 +398,7 @@ By default, the LaTeX article class produces pages with massive margins. We can 
 Org Babel tends to use the LaTeX package, [[https://ctan.org/pkg/listings?lang=en][listings]], to generate source code blocks. I think the [[https://ctan.org/pkg/minted?lang=en][minted]] package produces much prettier output, so we can force Org Babel to use it instead.
 
 #+NAME: org-latex-include-minted
-#+begin_src
+#+begin_src emacs-lisp :tangle no
     (add-to-list 'org-latex-packages-alist '("" "minted"))
 #+end_src
 
