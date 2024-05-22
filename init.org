@@ -500,7 +500,7 @@ This directive enables the built-in package that allows Org files to be exported
 	   ("C-c n f" . org-roam-node-find)
 	   ("C-c n i" . org-roam-node-insert))
     :custom
-    (org-roam-directory (file-truename "~/Documents/org-roam"))
+    (org-roam-directory (file-truename "~/Sync/Org Roam"))
     :config
     (org-roam-db-autosync-mode))
 #+end_src
