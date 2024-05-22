@@ -344,10 +344,13 @@ Enabling ~visual-line-mode~ wraps lines on the nearest space. While this makes p
 
 Setting ~org-log-done~ to ~'time~ places the time and date under completed TODO items.
 
+In Emacs, files in INI format are handled by ~conf-mode~. I set source code blocks to recognize the ~ini~ language option as using ~conf-mode~, so the code displays properly in the editor, as well as when it's exported to LaTeX with minted.
+
 #+begin_src emacs-lisp :noweb yes
   (use-package org
     :config
     <<org-babel-config>>
+    (add-to-list 'org-src-lang-modes '("ini" . conf))
     :hook (org-mode . visual-line-mode)
     :custom (org-log-done 'time))
 #+end_src
