@@ -317,6 +317,14 @@ We'll bind ~recompile~ to ~C-c c~ and we'll set ~compile-command~ using the ~set
 			       (other     . "linux"))))
 #+end_src
 
+** Go
+
+#+begin_src emacs-lisp
+  (use-package go-mode
+    :ensure t
+    :mode (rx ".go" eos))
+#+end_src
+
 ** Haskell
 
 Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from being shown in a seperate buffer. Instead errors are shown in the minibuffer, or in the interactive Haskell buffer if one exists.
