@@ -278,6 +278,13 @@ The EditorConfig package looks for ~.editorconfig~ files in the project director
     (marginalia-mode))
 #+end_src
 
+[[https://github.com/minad/consult][Consult]] provides a collection of search and navigation commands.
+
+#+begin_src emacs-lisp
+  (use-package consult
+    :ensure t)
+#+end_src
+
 * Language Support
 
 ** CC Mode
