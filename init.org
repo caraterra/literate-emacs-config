@@ -336,6 +336,37 @@ Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from b
     :mode ((rx ".hs" eos) . haskell-mode))
 #+end_src
 
+** Lisps
+
+[[https://paredit.org/][ParEdit]] is a minor mode that adds functionality for editing S-expressions. We enable its mode whenever the mode for any Lisp-like language is enabled. Dan Midwood has created [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][an animated guide]] on how to use this mode.
+
+#+begin_src emacs-lisp
+  (use-package paredit
+    :ensure t
+    :hook
+    (common-lisp-mode . paredit-mode)
+    (emacs-lisp-mode . paredit-mode)
+    (scheme-mode . paredit-mode))
+#+end_src
+
+*** Scheme
+
+[[https://www.nongnu.org/geiser/index.html][Geiser]] is a collection of major and minor modes for Scheme hacking with support for several implementations. I've included the REPLs for [[https://racket-lang.org/][Racket]] and [[https://www.gnu.org/software/guile/][GNU Guile]].
+
+#+begin_src emacs-lisp
+  (use-package geiser
+    :ensure t
+    :hook (scheme-mode . geiser-mode))
+
+  (use-package geiser-racket
+    :ensure t
+    :after geiser)
+
+  (use-package geiser-guile
+    :ensure t
+    :after geiser)
+#+end_src
+
 ** Markdown
 
 [[https://jblevins.org/projects/markdown-mode/][Markdown Mode]] adds editor support for Markdown. Setting ~markdown-asymmetic-header~ to ~t~ allows for ~# Header~ style headers to be used in addition to ~# Header #~ style headers and setting ~markdown-enable-math~ to ~t~ enables support for LaTeX math expressions.
@@ -463,37 +494,6 @@ This directive enables the built-in package that allows Org files to be exported
   (use-package rust-mode
     :ensure t
     :mode (rx ".rs" eos))
-#+end_src
-
-** Lisps
-
-[[https://paredit.org/][ParEdit]] is a minor mode that adds functionality for editing S-expressions. We enable its mode whenever the mode for any Lisp-like language is enabled. Dan Midwood has created [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][an animated guide]] on how to use this mode.
-
-#+begin_src emacs-lisp
-  (use-package paredit
-    :ensure t
-    :hook
-    (common-lisp-mode . paredit-mode)
-    (emacs-lisp-mode . paredit-mode)
-    (scheme-mode . paredit-mode))
-#+end_src
-
-*** Scheme
-
-[[https://www.nongnu.org/geiser/index.html][Geiser]] is a collection of major and minor modes for Scheme hacking with support for several implementations. I've included the REPLs for [[https://racket-lang.org/][Racket]] and [[https://www.gnu.org/software/guile/][GNU Guile]].
-
-#+begin_src emacs-lisp
-  (use-package geiser
-    :ensure t
-    :hook (scheme-mode . geiser-mode))
-
-  (use-package geiser-racket
-    :ensure t
-    :after geiser)
-
-  (use-package geiser-guile
-    :ensure t
-    :after geiser)
 #+end_src
 
 ** YAML
