@@ -322,6 +322,7 @@ We'll bind ~recompile~ to ~C-c c~ and we'll set ~compile-command~ using the ~set
 #+begin_src emacs-lisp
   (use-package go-mode
     :ensure t
+    :hook (before-save . gofmt-before-save)
     :mode (rx ".go" eos))
 #+end_src
 
