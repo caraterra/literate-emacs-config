@@ -489,6 +489,16 @@ This directive enables the built-in package that allows Org files to be exported
     :mode (rx ".py" eos))
 #+end_src
 
+** Shell
+
+By default, ~shell-mode~ uses four spaces of indentation, converting every eight spaces of indentation to a tab character. This results in a mix of tabs and spaces in files where are two or more levels of indentation. Setting ~tab-width~ to the indentation offset results in all indentation being performed with tab characters four spaces wide.
+
+Using tabs everywhere is preferable to using spaces, as the leading-whitespace-ignoring heredoc syntax (~<<-~), only ignores leading tabs.
+
+#+begin_src emacs-lisp
+  (add-hook 'shell-mode-hook (setq tab-width 4))
+#+end_src
+
 ** Rust
 
 #+begin_src emacs-lisp
