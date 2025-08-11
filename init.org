@@ -557,41 +557,6 @@ Using tabs everywhere is preferable to using spaces, as the leading-whitespace-i
     :mode (rx "." (or "yml" "yaml") eos))
 #+end_src
 
-* Note-Taking with Org Roam
-
-#+begin_src emacs-lisp
-  (use-package org-roam
-    :ensure t
-    :bind (("C-c n b" . org-roam-node-from-buffer)
-	   ("C-c n r" . org-roam-node-from-region)
-	   ("C-c n l" . org-roam-buffer-toggle)
-	   ("C-c n f" . org-roam-node-find)
-	   ("C-c n i" . org-roam-node-insert))
-    :custom
-    (org-roam-directory (file-truename "~/Sync/Org Roam"))
-    :config
-    (org-roam-db-autosync-mode))
-#+end_src
-
-#+begin_src emacs-lisp
-  (defun org-roam-node-from-region (start end)
-    "Create an Org Roam node from the current region."
-    (interactive "r")
-    (let ((source-buffer (current-buffer)))
-      (org-roam-node-find)
-      (goto-char (point-max))
-      (insert-buffer-substring source-buffer start end)))
-#+end_src
-
-#+begin_src emacs-lisp
-  (defun org-roam-node-from-buffer (buffer)
-    "Create an Org Roam node from the selected buffer."
-    (interactive "b")
-    (org-roam-node-find)
-    (goto-char (point-max))
-    (insert-buffer-substring buffer))
-#+end_src
-
 * Restoring Garbage Collection Thresholds
 
 This configuration sets the garbage collection thresholds that were changed in [[* Inhibiting Garbage Collections During Initialization]] to lower values. This is done here, rather than in the ~after-init-hook~, so that the values are properly restored even when running Emacs with the ~-l~ command line option or when reloading this file with ~load-file~.
