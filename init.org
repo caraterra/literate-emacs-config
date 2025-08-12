@@ -104,6 +104,48 @@ When natively compiling Emacs Lisp packages, some warnings may be produced by th
     (setq native-comp-async-report-warnings-errors 'silent))
 #+end_src
 
+* Automatic Dark Theme
+
+#+begin_src emacs-lisp
+  (setq light-theme 'modus-operandil)
+  (setq dark-theme 'modus-vivendi)
+
+  (defun dark-mode--is-dark-dbus ()
+    (progn
+      (require 'dbus)
+      (eq 1 (caar (dbus-ignore-errors
+		    (dbus-call-method
+		     :session
+		     "org.freedesktop.portal.Desktop"
+		     "/org/freedesktop/portal/desktop"
+		     "org.freedesktop.portal.Settings"
+		     "Read"
+		     "org.freedesktop.appearance"
+		     "color-scheme"))))))
+
+  (defun dark-mode--set (theme)
+    (mapc #'disable-theme custom-enabled-themes)
+    (pcase theme
+	('light (load-theme light-theme))
+	('dark (load-theme dark-theme))))
+
+  (defun dark-mode--set-dbus (_ _ _) (dark-mode--set (if (dark-mode--is-dark-dbus) 'dark 'light)))
+
+  (defun dark-mode--listen ()
+    (cond ((eq window-system 'x) (progn
+				   (dark-mode--set-dbus nil nil nil)
+				   (dbus-register-signal
+				    :session
+				    "org.freedesktop.portal.Desktop"
+				    "/org/freedesktop/portal/desktop"
+				    "org.freedesktop.portal.Settings"
+				    "SettingChanged"
+				    'dark-mode--set-dbus)))
+	  ((eq window-system 'ns) (add-hook 'ns-system-appearance-change-functions #'dark-mode--set))))
+
+  (dark-mode--listen)
+#+end_src
+
 * Populating the Executable Path
 
 When Emacs is run as a graphical application in MacOS, or as a daemon, it inherits a minimal set of environment variables from the system. If the user sets environment variables in their shell configuration, these won't be picked up by Emacs, causing some processes to behave unexpectedly.
