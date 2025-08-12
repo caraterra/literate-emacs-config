@@ -107,7 +107,7 @@ When natively compiling Emacs Lisp packages, some warnings may be produced by th
 * Automatic Dark Theme
 
 #+begin_src emacs-lisp
-  (setq light-theme 'modus-operandil)
+  (setq light-theme 'modus-operandi)
   (setq dark-theme 'modus-vivendi)
 
   (defun dark-mode--is-dark-dbus ()
