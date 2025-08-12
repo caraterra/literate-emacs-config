@@ -526,7 +526,7 @@ This directive enables the built-in package that allows Org files to be exported
 ** Python
 
 #+begin_src emacs-lisp
-  (use-package python
+  (use-package python-mode
     :ensure t
     :mode (rx ".py" eos))
 #+end_src
