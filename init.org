@@ -333,27 +333,10 @@ The EditorConfig package looks for ~.editorconfig~ files in the project director
 
 CC Mode is a major mode supporting C, C++, Objective-C, Java, Cobra IDL, Pike and AWK.
 
-This function sets ~compile-command~ based on the presence of a Makefile in the current directory. If there is no Makefile present, we will attempt to build an executable from the current buffer file using ~make~'s implicit rules.
-
-#+begin_src emacs-lisp
-  (defun set-cc-compile-command ()
-    (unless (or (file-exists-p "makefile")
-		(file-exists-p "Makefile")
-		(file-exists-p "GNUmakefile")
-		(not buffer-file-name))
-      (setq-local compile-command
-		  (concat "make -k "
-			  (shell-quote-argument (file-name-sans-extension buffer-file-name))))))
-#+end_src
-
 By setting ~c-default-style~, we can determine what indentation style each language mode uses. We'll have Java and AWK use their own styles, and have everything else use the Linux indentation style, rather than the default two-space GNU style.
-
-We'll bind ~recompile~ to ~C-c c~ and we'll set ~compile-command~ using the ~set-cc-compile-command~ function from above.
 
 #+begin_src emacs-lisp
   (use-package cc-mode
-    :bind ("C-c c" . recompile)
-    :hook (c-mode-common . set-cc-compile-command)
     :custom (c-default-style '((java-mode . "java")
 			       (awk-mode  . "awk")
 			       (other     . "linux"))))
