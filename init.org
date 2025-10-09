@@ -89,7 +89,9 @@ Here, I put my base Emacs configurations into a single ~use-package~ block to ke
     ;; Make prompt in `comint-mode' readonly
     (comint-prompt-read-only t)
     ;; Disable the bell
-    (ring-bell-function #'ignore))
+    (ring-bell-function #'ignore)
+    ;; Hide commands in M-x which do not apply to the current mode
+    (read-extended-command-predicate #'command-completion-default-include-p))
 #+end_src
 
 ** Silencing Native Compilation Warnings
@@ -326,6 +328,41 @@ The EditorConfig package looks for ~.editorconfig~ files in the project director
 #+begin_src emacs-lisp
   (use-package consult
     :ensure t)
+#+end_src
+
+* Customizing Completion-At-Point
+
+#+begin_src emacs-lisp
+  (use-package corfu
+    ;; Optional customizations
+    :custom
+    ;; (corfu-cycle t) ;; Enable cycling for `corfu-next/previous'
+    ;; (corfu-quit-at-boundary nil) ;; Never quit at completion boundary
+    (corfu-quit-no-match nil) ;; Never quit, even if there is no match
+    (corfu-popinfo-delay '(0.5 . 0.5))
+    ;; (corfu-preview-current nil) ;; Disable current candidate preview
+    ;; (corfu-preselect 'prompt) ;; Preselect the prompt
+    ;; (corfu-on-exact-match nil) ;; Configure handling of exact matches
+    :init
+    ;; Recommended: Enable Corfu globally.  Recommended since many modes provide
+    ;; Capfs and Dabbrev can be used globally (M-/).  See also the customization
+    ;; variable `global-corfu-modes' to exclude certain modes.
+    (global-corfu-mode)
+    ;; Enable optional extension modes:
+    (corfu-popupinfo-mode))
+#+end_src
+
+** Use the Orderless completion style
+
+#+begin_src emacs-lisp
+  (use-package orderless
+    :custom
+    ;; (orderless-style-dispatchers '(orderless-affix-dispatch))
+    ;; (orderless-component-separator #'orderless-escapable-split-on-space)
+    (completion-styles '(orderless basic))
+    (completion-category-overrides '((file (styles partial-completion))))
+    (completion-category-defaults nil) ;; Disable defaults, use our settings
+    (completion-pcm-leading-wildcard t)) ;; Emacs 31: partial-completion behaves like substring
 #+end_src
 
 * Language Support
