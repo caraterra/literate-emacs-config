@@ -68,8 +68,6 @@ Here, I put my base Emacs configurations into a single ~use-package~ block to ke
     (tool-bar-mode 0)
     ;; Enable menu bar in graphical mode
     (menu-bar-mode (if (display-graphic-p) 1 0))
-    ;; Use light them in graphical mode and dark theme otherwise
-    (load-theme (if (display-graphic-p) 'modus-operandi 'modus-vivendi))
     ;; Enable column numbering
     (column-number-mode)
     ;; Disable scroll bars
@@ -124,10 +122,13 @@ When natively compiling Emacs Lisp packages, some warnings may be produced by th
 		     "color-scheme"))))))
 
   (defun dark-mode--set (theme)
-    (mapc #'disable-theme custom-enabled-themes)
     (pcase theme
-	('light (load-theme light-theme))
-	('dark (load-theme dark-theme))))
+	('light (progn
+		  (load-theme light-theme)
+		  (disable-theme dark-theme)))
+	('dark (progn
+		 (load-theme dark-theme)
+		 (disable-theme light-theme)))))
 
   (defun dark-mode--set-dbus (_ _ _) (dark-mode--set (if (dark-mode--is-dark-dbus) 'dark 'light)))
 
