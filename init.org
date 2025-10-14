@@ -30,19 +30,6 @@ This section populates the ~package-archives~ list with the desired Emacs packag
   (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 #+end_src
 
-* Configuring ~use-package~
-
-[[https://github.com/jwiegley/use-package][use-package]] provides macros for loading and configuring Emacs packages. We'll load it here, installing it from the repositories if it's not already installed.
-
-#+begin_src emacs-lisp
-  (unless (package-installed-p 'use-package)
-	  (package-refresh-contents)
-	  (package-install 'use-package))
-
-  (eval-when-compile
-    (require 'use-package))
-#+end_src
-
 * Killing All Open Buffers
 
 This function will switch to the scratch buffer, kill all other open buffers, and delete all but one window. I'll use this when I want to close out everything I've been working on, while still keeping Emacs open. We'll create a keybinding for this in [[*Configuring Emacs]].
