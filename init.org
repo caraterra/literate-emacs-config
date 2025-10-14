@@ -530,14 +530,6 @@ Using tabs everywhere is preferable to using spaces, as the leading-whitespace-i
     :mode (rx ".rs" eos))
 #+end_src
 
-** YAML
-
-#+begin_src emacs-lisp
-  (use-package yaml-mode
-    :ensure t
-    :mode (rx "." (or "yml" "yaml") eos))
-#+end_src
-
 * Restoring Garbage Collection Thresholds
 
 This configuration sets the garbage collection thresholds that were changed in [[* Inhibiting Garbage Collections During Initialization]] to lower values. This is done here, rather than in the ~after-init-hook~, so that the values are properly restored even when running Emacs with the ~-l~ command line option or when reloading this file with ~load-file~.
