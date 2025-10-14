@@ -533,14 +533,6 @@ This directive enables the built-in package that allows Org files to be exported
     :after org)
 #+end_src
 
-** Python
-
-#+begin_src emacs-lisp
-  (use-package python-mode
-    :ensure t
-    :mode (rx ".py" eos))
-#+end_src
-
 ** Shell
 
 By default, ~shell-mode~ uses four spaces of indentation, converting every eight spaces of indentation to a tab character. This results in a mix of tabs and spaces in files where are two or more levels of indentation. Here we force indentation using tabs with a width of 8 spaces.
