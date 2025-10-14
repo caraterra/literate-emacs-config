@@ -245,31 +245,6 @@ When running Emacs in the terminal, yanked text is copied to an internal buffer.
     (xclip-mode 1))
 #+end_src
 
-* EditorConfig Support
-
-The EditorConfig package looks for ~.editorconfig~ files in the project directory and configures editor settings based on the directives within the file. See the [[https://editorconfig.org/][EditorConfig documentation]] for more information.
-
-#+begin_src emacs-lisp
-  (use-package editorconfig
-    :ensure t
-    :functions editorconfig-mode
-    :config
-    (editorconfig-mode 1))
-#+end_src
-
-#+ATTR_LATEX: :environment tabularx :width \textwidth :align XX
-| EditorConfig Properties    | Description                                                                                 |
-|----------------------------+---------------------------------------------------------------------------------------------|
-| ~indent_style~             | Indent with tabs or spaces.                                                                 |
-| ~indent_size~              | The number of columns used for each indentation level, as well as the width of soft tabs.   |
-| ~tab_width~                | The number of columns used to represent a tab character.                                    |
-| ~end_of_line~              | Determines how line breaks are represented.                                                 |
-| ~charset~                  | Determines the character set.                                                               |
-| ~trim_trailing_whitespace~ | Whether or not to remove any whitespace characters preceding newline characters.            |
-| ~insert_final_newline~     | Whether or not to ensure file ends with a newline when saving.                              |
-| ~max_line_length~          | Force hard wrapping at the given number of characters, or don't force hard wrapping at all. |
-| ~root~                     | Whether or not to stop the ~.editorconfig~ file search on the current file.                 |
-
 * Customizing the Minibuffer
 
 #+begin_src emacs-lisp
