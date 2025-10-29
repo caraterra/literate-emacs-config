@@ -337,6 +337,14 @@ When running Emacs in the terminal, yanked text is copied to an internal buffer.
 
 * Language Support
 
+** Configuring the Language Server Protocol Client
+
+#+begin_src emacs-lisp
+  (use-package eglot
+    :config
+    (add-to-list 'eglot-server-programs '((java-mode java-ts-mode) . ("jdtls"))))
+#+end_src
+
 ** CC Mode
 
 CC Mode is a major mode supporting C, C++, Objective-C, Java, Cobra IDL, Pike and AWK.
