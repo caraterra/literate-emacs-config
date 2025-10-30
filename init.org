@@ -77,6 +77,8 @@ Here, I put my base Emacs configurations into a single ~use-package~ block to ke
     (comint-prompt-read-only t)
     ;; Disable the bell
     (ring-bell-function #'ignore)
+    ;; Disable the creation of backup files
+    (make-backup-files nil)
     ;; Hide commands in M-x which do not apply to the current mode
     (read-extended-command-predicate #'command-completion-default-include-p))
 #+end_src
