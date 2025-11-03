@@ -216,18 +216,6 @@ The [[https://github.com/emacs-evil/evil-surround][evil-surround]] package provi
 | ~<~ or ~t~           | An HTML or XML tag. Prompts for tag attributes.          |
 | ~f~                  | A function. Prompts for function name, e.g. ~print(foo)~ |
 
-* Document Conversion with Pandoc
-
-Pandoc allows us to convert our working file into one of many document formats. The [[https://joostkremers.github.io/pandoc-mode/][pandoc-mode]] plugin integrates this tool in the editor with an interactive menu. Here, I have the mode enabled when working in Markdown or TeX mode.
-
-#+begin_src emacs-lisp
-  (use-package pandoc-mode
-    :ensure t
-    :hook
-    (markdown-mode . pandoc-mode)
-    (tex-mode . pandoc-mode))
-#+end_src
-
 * Magit
 
 #+begin_src emacs-lisp
