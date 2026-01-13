@@ -70,6 +70,9 @@ Here, I put my base Emacs configurations into a single ~use-package~ block to ke
     ;; Enable line numbering in `prog-mode'
     (prog-mode . display-line-numbers-mode)
     :custom
+    ;; Enable indentation+completion using the TAB key.
+    ;; `completion-at-point' is often bound to M-TAB.
+    (tab-always-indent 'complete)
     ;; Set relative line numbering
     (display-line-numbers-type 'relative)
     ;; Don't display the startup message
