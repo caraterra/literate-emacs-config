@@ -339,13 +339,16 @@ When running Emacs in the terminal, yanked text is copied to an internal buffer.
 
 CC Mode is a major mode supporting C, C++, Objective-C, Java, Cobra IDL, Pike and AWK.
 
-By setting ~c-default-style~, we can determine what indentation style each language mode uses. We'll have Java and AWK use their own styles, and have everything else use the Linux indentation style, rather than the default two-space GNU style.
+By setting ~c-default-style~, we can determine what indentation style each language mode uses. We'll have Java and AWK use their own styles, and have everything else use a custom LLVM indentation style, which is based off K&R.
+
+We choose to use LLVM-style indentation, as this is what is used by ~clang-format~ and the ~clangd~ language server.
 
 #+begin_src emacs-lisp
   (use-package cc-mode
+    :config (add-to-list 'c-style-alist '("llvm" "k&r" (c-basic-offset . 2)))
     :custom (c-default-style '((java-mode . "java")
-			       (awk-mode  . "awk")
-			       (other     . "linux"))))
+  			     (awk-mode  . "awk")
+  			     (other     . "llvm"))))
 #+end_src
 
 ** Go
