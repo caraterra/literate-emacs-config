@@ -32,13 +32,14 @@ This section populates the ~package-archives~ list with the desired Emacs packag
 
 * Killing All Open Buffers
 
-This function will switch to the scratch buffer, kill all other open buffers, and delete all but one window. I'll use this when I want to close out everything I've been working on, while still keeping Emacs open. We'll create a keybinding for this in [[*Configuring Emacs]].
+This function will switch to the scratch buffer, kill all other open buffers and tabs, and delete all but one window. I'll use this when I want to close out everything I've been working on, while still keeping Emacs open. We'll create a keybinding for this in [[*Configuring Emacs]].
 
 #+begin_src emacs-lisp
   (defun kill-all-buffers ()
-    "Kill all buffers except the scratch buffer."
+    "Kill all buffers except the scratch buffer and close all other tabs."
     (interactive)
     (delete-other-windows)
+    (tab-bar-close-other-tabs)
     (switch-to-buffer (get-scratch-buffer-create))
     (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 #+end_src
