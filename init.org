@@ -333,6 +333,8 @@ When running Emacs in the terminal, yanked text is copied to an internal buffer.
 
 * Language Support
 
+This section is dedicated to configuring programming language packages. Note that while package-specific variables may be configured using the ~:custom~ directive, the setting of global variables, e.g. ~tab-width~, should be done with the mode hook, using the ~:hook~ directive.
+
 ** Configuring the Language Server Protocol Client
 
 #+begin_src emacs-lisp
@@ -374,6 +376,18 @@ Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from b
     :ensure t
     :custom (haskell-interactive-popup-errors nil)
     :mode ((rx ".hs" eos) . haskell-mode))
+#+end_src
+
+** Javascript
+
+#+begin_src emacs-lisp
+  (use-package js
+    :hook
+    (js-mode . (lambda ()
+  	       (setq tab-width 2
+  		     indent-tabs-mode nil)))
+    :custom
+    (js-indent-level 2))
 #+end_src
 
 ** Lisps
@@ -528,10 +542,12 @@ Using tabs everywhere is preferable to using spaces, as the leading-whitespace-i
 
 #+begin_src emacs-lisp
   (use-package sh-script
+    :hook
+    (sh-mode . (lambda ()
+  	       (setq indent-tabs-mode t
+  		     tab-width 8)))
     :custom
-    (indent-tabs-mode t)
-    (sh-basic-offset 8)
-    (tab-width 8))
+    (sh-basic-offset 8))
 #+end_src
 
 ** Rust
