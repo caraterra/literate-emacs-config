@@ -287,11 +287,11 @@ When running Emacs in the terminal, yanked text is copied to an internal buffer.
   (use-package consult
     :ensure t
     :bind (("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
-           ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-           ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-           ("C-x t b" . consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
-           ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
-  	 ))
+	   ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+	   ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+	   ("C-x t b" . consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
+	   ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
+	   ))
 #+end_src
 
 * Customizing Completion-At-Point
@@ -355,8 +355,8 @@ We choose to use LLVM-style indentation, as this is what is used by ~clang-forma
   (use-package cc-mode
     :config (add-to-list 'c-style-alist '("llvm" "k&r" (c-basic-offset . 2)))
     :custom (c-default-style '((java-mode . "java")
-  			     (awk-mode  . "awk")
-  			     (other     . "llvm"))))
+			     (awk-mode  . "awk")
+			     (other     . "llvm"))))
 #+end_src
 
 ** Go
@@ -384,8 +384,8 @@ Here ~haskell-interactive-popup-errors~ is set to ~nil~ to prevent errors from b
   (use-package js
     :hook
     (js-mode . (lambda ()
-  	       (setq tab-width 2
-  		     indent-tabs-mode nil)))
+	       (setq tab-width 2
+		     indent-tabs-mode nil)))
     :custom
     (js-indent-level 2))
 #+end_src
@@ -544,8 +544,8 @@ Using tabs everywhere is preferable to using spaces, as the leading-whitespace-i
   (use-package sh-script
     :hook
     (sh-mode . (lambda ()
-  	       (setq indent-tabs-mode t
-  		     tab-width 8)))
+	       (setq indent-tabs-mode t
+		     tab-width 8)))
     :custom
     (sh-basic-offset 8))
 #+end_src
